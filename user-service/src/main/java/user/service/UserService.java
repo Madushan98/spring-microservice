@@ -1,4 +1,9 @@
 package user.service;
+import clients.notifications.NotificationClient;
+import clients.notifications.dtos.NotificationRequest;
+import clients.records.RecordClient;
+import clients.records.dtos.RecordRequest;
+import clients.records.dtos.RecordResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import user.dtos.UserRegistrationRequest;
@@ -10,10 +15,11 @@ import user.repository.UserRepository;
 public class UserService {
 
 
-    UserRepository userRepository ;
+    private final UserRepository userRepository ;
+    private final RecordClient recordClient;
+    private final NotificationClient notificationClient;
 
-
-    public void registerUser(UserRegistrationRequest request) {
+    public RecordResponse registerUser(UserRegistrationRequest request) {
                Person user = Person.builder()
                         .fullName(request.fullName())
                         .userName(request.userName())
@@ -21,9 +27,18 @@ public class UserService {
                         .password(request.password())
                         .build();
 
-             //  Person user = new Person(request.fullName(),request.userName(),request.mobileNo(),request.password());
+        userRepository.saveAndFlush(user);
 
-        userRepository.save(user);
+        RecordRequest recordRequest = new RecordRequest(user.getId());
+
+        var response = recordClient.createRecord(recordRequest);
+
+        NotificationRequest notificationRequest = new NotificationRequest("User Created");
+
+        var notificationResponse = notificationClient.createRecord(notificationRequest);
+
+        return response;
+
     }
 
 

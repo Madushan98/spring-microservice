@@ -6,7 +6,4 @@ public record UserRegistrationRequest(
         String fullName,
         String password
 ) {
-
-
-
 }

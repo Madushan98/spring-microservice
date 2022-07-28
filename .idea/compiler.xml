@@ -9,14 +9,23 @@
         <outputRelativeToContentRoot value="true" />
         <module name="record-service" />
         <module name="clients" />
-        <module name="eureka-server" />
         <module name="Medical-record" />
         <module name="location-service" />
+        <module name="eureka-server" />
+        <module name="user" />
+        <module name="notification-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Medical-record" target="16" />
       <module name="user-service" target="16" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="eureka-server" options="" />
+      <module name="record-service" options="" />
+      <module name="user" options="" />
+    </option>
   </component>
 </project>
