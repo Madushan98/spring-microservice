@@ -15,5 +15,5 @@ public interface NotificationClient {
 
     @PostMapping(path = "api/v1/notification")
     @LoadBalanced
-    NotificationResponse createRecord(NotificationRequest request) ;
+    NotificationResponse sendNotification(NotificationRequest request) ;
 }

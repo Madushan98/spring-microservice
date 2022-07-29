@@ -11,6 +11,7 @@
         <module name="clients" />
         <module name="Medical-record" />
         <module name="location-service" />
+        <module name="amqp" />
         <module name="api-gateway" />
         <module name="eureka-server" />
         <module name="user" />

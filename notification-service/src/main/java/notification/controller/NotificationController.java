@@ -24,9 +24,9 @@ public class NotificationController {
 
 
     @PostMapping
-    public NotificationResponse qrRecord(@RequestBody NotificationRequest notificationRequest) {
+    public NotificationResponse sendNotification(@RequestBody NotificationRequest notificationRequest) {
         log.info("NotificationSent {}", notificationRequest);
-        return   notificationService.createRecord(notificationRequest);
+        return   notificationService.sendNotification(notificationRequest);
     }
 
 }

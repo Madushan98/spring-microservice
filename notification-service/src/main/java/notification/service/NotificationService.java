@@ -17,7 +17,7 @@ public class NotificationService {
 
     private final NotificationRepository repository;
 
-    public NotificationResponse createRecord(NotificationRequest request) {
+    public NotificationResponse sendNotification(NotificationRequest request) {
         Notification notification = Notification.builder()
                 .message(request.message())
                 .sender("admin")
