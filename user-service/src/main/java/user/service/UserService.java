@@ -1,4 +1,6 @@
 package user.service;
+
+import amqp.RabbitMQMessageProducer;
 import clients.notifications.NotificationClient;
 import clients.notifications.dtos.NotificationRequest;
 import clients.records.RecordClient;
@@ -15,17 +17,17 @@ import user.repository.UserRepository;
 public class UserService {
 
 
-    private final UserRepository userRepository ;
+    private final UserRepository userRepository;
     private final RecordClient recordClient;
-    private final NotificationClient notificationClient;
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
     public RecordResponse registerUser(UserRegistrationRequest request) {
-               Person user = Person.builder()
-                        .fullName(request.fullName())
-                        .userName(request.userName())
-                        .mobileNo(request.mobileNo())
-                        .password(request.password())
-                        .build();
+        Person user = Person.builder()
+                .fullName(request.fullName())
+                .userName(request.userName())
+                .mobileNo(request.mobileNo())
+                .password(request.password())
+                .build();
 
         userRepository.saveAndFlush(user);
 
@@ -35,7 +37,11 @@ public class UserService {
 
         NotificationRequest notificationRequest = new NotificationRequest("User Created");
 
-        var notificationResponse = notificationClient.createRecord(notificationRequest);
+        rabbitMQMessageProducer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+        );
 
         return response;
 
